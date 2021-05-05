@@ -78,6 +78,8 @@ func MapRoutes() *gin.Engine {
 	api.GET("/blogs/top", showTopBlogsAction)
 	api.GET("/login/redirect", redirectLoginAction)
 	api.GET("/login/callback", loginCallbackAction)
+	api.GET("/articles", console.GetArticlesAction)
+	api.GET("/articles/:id", console.GetArticleAction)
 
 	consoleGroup := api.Group("/console")
 	consoleGroup.Use(console.LoginCheck)
