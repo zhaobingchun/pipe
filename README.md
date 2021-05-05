@@ -1,5 +1,5 @@
 <p align = "center">
-<img alt="Pipe" src="https://static.b3log.org/images/brand/pipe-128.png">
+<img alt="Pipe" src="https://b3log.org/images/brand/pipe-128.png">
 <br><br>
 小而美的博客平台，为未来而构建
 <br><br>
@@ -41,11 +41,7 @@
 
 ## 🗃 案例
 
-* [Vanessa](http://vanessa.b3log.org)
-* [黑壳博客](http://blog.bhusk.com)
-* [zorke 的博客](https://www.zorkelvll.cn)
-* [Akkuman 的博客](http://o0o.pub)
-* [一个码农](http://blog.gitor.org)
+* [Vanessa](https://vanessa.b3log.org)
 
 ## ✨ 功能
 

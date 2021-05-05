@@ -1,5 +1,5 @@
 <p align = "center">
-<img alt="Pipe" src="https://static.b3log.org/images/brand/pipe-128.png">
+<img alt="Pipe" src="https://b3log.org/images/brand/pipe-128.png">
 <br><br>
 Small and beautiful blogging platform, built for the future
 <br><br>
@@ -39,11 +39,7 @@ Welcome to [Pipe Official Discussion Forum](https://ld246.com/tag/pipe) to learn
 
 ## 🗃 Showcases
 
-* http://vanessa.b3log.org
-* http://blog.bhusk.com
-* https://www.zorkelvll.cn
-* http://o0o.pub
-* http://blog.gitor.org
+* [Vanessa](https://vanessa.b3log.org)
 
 ## ✨ Features
 
