@@ -32,12 +32,3 @@ func LoginCheck(c *gin.Context) {
 
 	c.Next()
 }
-
-func HandlerAPI(c *gin.Context) {
-	my := &util.SessionData{
-		UID: 1,
-		BID: 1,
-	}
-	my.Save(c)
-	c.Next()
-}

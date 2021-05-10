@@ -19,6 +19,7 @@ import (
 	"strings"
 
 	"github.com/88250/gulu"
+	"github.com/88250/pipe/controller/apis"
 	"github.com/88250/pipe/controller/console"
 	"github.com/88250/pipe/model"
 	"github.com/88250/pipe/theme"
@@ -78,11 +79,12 @@ func MapRoutes() *gin.Engine {
 	api.GET("/blogs/top", showTopBlogsAction)
 	api.GET("/login/redirect", redirectLoginAction)
 	api.GET("/login/callback", loginCallbackAction)
-	api.GET("/articles", console.HandlerAPI, console.GetArticlesAction)
-	api.GET("/articles/:id", console.HandlerAPI, console.GetArticleAction)
-	api.GET("/categories", console.HandlerAPI, console.GetCategoriesAction)
-	api.GET("/navigations", console.HandlerAPI, console.GetNavigationAction)
-	api.GET("/comments", getRepliesAction)
+	api.GET("/articles", apis.HandlerAPI, console.GetArticlesAction)
+	api.GET("/articles/:id", apis.HandlerAPI, console.GetArticleAction)
+	api.GET("/categories", apis.HandlerAPI, console.GetCategoriesAction)
+	api.GET("/navigations", apis.HandlerAPI, console.GetNavigationAction)
+	api.GET("/comments", apis.GetComment)
+	api.GET("/wx/openid", apis.GetOpenID)
 
 	consoleGroup := api.Group("/console")
 	consoleGroup.Use(console.LoginCheck)
