@@ -20,10 +20,10 @@ func GetOpenID(c *gin.Context) {
 	case "wx":
 		appid = os.Getenv("WX_APPID")
 		secret = os.Getenv("WX_SECRET")
-		address = "https://api.weixin.qq.com/sns/oauth2/access_token"
+		address = "https://api.weixin.qq.com/sns/jscode2session"
 	}
 	code := c.Query("code")
-	url := fmt.Sprintf("%s?appid=%s&secret=%s&code=%s&grant_type=%s",
+	url := fmt.Sprintf("%s?appid=%s&secret=%s&js_code=%s&grant_type=%s",
 		address, appid, secret, code, "authorization_code")
 	bys, err := httpGet(url)
 	if err != nil {
