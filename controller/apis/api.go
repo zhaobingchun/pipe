@@ -23,11 +23,10 @@ func Login(c *gin.Context) {
 func GetComment(c *gin.Context) {
 	result := gulu.Ret.NewResult()
 	defer c.JSON(http.StatusOK, result)
+	ArticleId, _ := strconv.ParseUint(c.Query("articleId"), 10, 64)
+	page, _ := strconv.Atoi(c.Query("p"))
 
-	blogID, _ := strconv.ParseUint(c.Query("blogid"), 10, 64)
-	parentCmtID, _ := strconv.ParseUint(c.Query("parent"), 10, 64)
-
-	replyComments := service.Comment.GetReplies(parentCmtID, blogID)
+	replyComments, pageinfo := service.Comment.GetArticleComments(ArticleId, page, 1)
 	var replies []*model.ThemeReply
 	for _, replyComment := range replyComments {
 		commentAuthor := service.User.GetUser(replyComment.AuthorID)
@@ -53,6 +52,8 @@ func GetComment(c *gin.Context) {
 		}
 		replies = append(replies, reply)
 	}
-
-	result.Data = replies
+	data := make(map[string]interface{})
+	data["comments"] = replies
+	data["pagination"] = pageinfo
+	result.Data = data
 }

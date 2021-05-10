@@ -23,7 +23,7 @@ func GetOpenID(c *gin.Context) {
 		address = "https://api.weixin.qq.com/sns/oauth2/access_token"
 	}
 	code := c.Query("code")
-	url := fmt.Sprintf("%s?appid=%s&secret=%s&js_code=%s&grant_type=%s",
+	url := fmt.Sprintf("%s?appid=%s&secret=%s&code=%s&grant_type=%s",
 		address, appid, secret, code, "authorization_code")
 	bys, err := httpGet(url)
 	if err != nil {
