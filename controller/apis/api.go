@@ -17,7 +17,24 @@ import (
 var logger = gulu.Log.NewLogger(os.Stdout)
 
 func Login(c *gin.Context) {
+	result := gulu.Ret.NewResult()
+	defer c.JSON(http.StatusOK, result)
+	openID := c.Query("openid")
+	user := service.User.GetUserByName(openID)
+	result.Data = user
+}
 
+func Register(c *gin.Context) {
+	result := gulu.Ret.NewResult()
+	defer c.JSON(http.StatusOK, result)
+	user := new(model.User)
+	if err := c.Bind(user); err != nil {
+		result.Code = util.CodeErr
+	}
+	if err := service.User.AddUser(user); err != nil {
+		result.Code = util.CodeErr
+	}
+	result.Data = user
 }
 
 func GetComment(c *gin.Context) {
