@@ -107,10 +107,13 @@ func Static(c *gin.Context) {
 		result.Code = util.CodeErr
 		return
 	}
-	var respData map[string]interface{}
+	var respData struct {
+		Code int            `json:"code"`
+		Msg  string         `json:"msg"`
+		Data map[string]int `json:"data"`
+	}
 	bys, _ = ioutil.ReadAll(resp.Body)
 	json.Unmarshal(bys, &respData)
-	result.Code = int(respData["code"].(float64))
-	data, _ := respData["data"].(map[string]float64)
-	result.Data, _ = data["https://www.jrrm.top/blogs/zhaobingchun"+article.Path]
+	result.Code = respData.Code
+	result.Data, _ = respData.Data["https://www.jrrm.top/blogs/zhaobingchun"+article.Path]
 }
