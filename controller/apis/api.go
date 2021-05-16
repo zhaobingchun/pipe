@@ -84,15 +84,10 @@ func AddComment(c *gin.Context) {
 	defer c.JSON(http.StatusOK, result)
 }
 
-func AddStatic(c *gin.Context) {
+func Static(c *gin.Context) {
 	result := gulu.Ret.NewResult()
 	defer c.JSON(http.StatusOK, result)
-}
-
-func GetStatic(c *gin.Context) {
-	result := gulu.Ret.NewResult()
-	defer c.JSON(http.StatusOK, result)
-	ArticleId, _ := strconv.ParseUint(c.Query("articleId"), 10, 64)
+	ArticleId, _ := strconv.ParseUint(c.Param("id"), 10, 64)
 	article := service.Article.ConsoleGetArticle(ArticleId)
 	if nil == article {
 		result.Code = util.CodeErr
@@ -101,7 +96,7 @@ func GetStatic(c *gin.Context) {
 	req := map[string][]map[string]interface{}{
 		"data": {
 			{
-				"count": 0,
+				"count": 1,
 				"url":   "https://www.jrrm.top/blogs/zhaobingchun" + article.Path,
 			},
 		},
@@ -116,5 +111,6 @@ func GetStatic(c *gin.Context) {
 	bys, _ = ioutil.ReadAll(resp.Body)
 	json.Unmarshal(bys, &respData)
 	result.Code = int(respData["code"].(float64))
-	result.Data = respData["data"]
+	data, _ := respData["data"].(map[string]float64)
+	result.Data, _ = data["https://www.jrrm.top/blogs/zhaobingchun"+article.Path]
 }
