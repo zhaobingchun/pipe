@@ -1,7 +1,10 @@
 package apis
 
 import (
+	"bytes"
+	"encoding/json"
 	"html/template"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strconv"
@@ -30,9 +33,11 @@ func Register(c *gin.Context) {
 	user := new(model.User)
 	if err := c.Bind(user); err != nil {
 		result.Code = util.CodeErr
+		return
 	}
 	if err := service.User.AddUser(user); err != nil {
 		result.Code = util.CodeErr
+		return
 	}
 	result.Data = user
 }
@@ -49,7 +54,6 @@ func GetComment(c *gin.Context) {
 		commentAuthor := service.User.GetUser(replyComment.AuthorID)
 		if nil == commentAuthor {
 			logger.Errorf("not found comment author [userID=%d]", replyComment.AuthorID)
-
 			continue
 		}
 		commentAuthorBlog := service.User.GetOwnBlog(commentAuthor.ID)
@@ -73,4 +77,44 @@ func GetComment(c *gin.Context) {
 	data["comments"] = replies
 	data["pagination"] = pageinfo
 	result.Data = data
+}
+
+func AddComment(c *gin.Context) {
+	result := gulu.Ret.NewResult()
+	defer c.JSON(http.StatusOK, result)
+}
+
+func AddStatic(c *gin.Context) {
+	result := gulu.Ret.NewResult()
+	defer c.JSON(http.StatusOK, result)
+}
+
+func GetStatic(c *gin.Context) {
+	result := gulu.Ret.NewResult()
+	defer c.JSON(http.StatusOK, result)
+	ArticleId, _ := strconv.ParseUint(c.Query("articleId"), 10, 64)
+	article := service.Article.ConsoleGetArticle(ArticleId)
+	if nil == article {
+		result.Code = util.CodeErr
+		return
+	}
+	req := map[string][]map[string]interface{}{
+		"data": {
+			{
+				"count": 0,
+				"url":   "https://www.jrrm.top/blogs/zhaobingchun" + article.Path,
+			},
+		},
+	}
+	bys, _ := json.Marshal(&req)
+	resp, err := http.Post("https://ld246.com/uvstat/get", "application/json", bytes.NewReader(bys))
+	if err != nil {
+		result.Code = util.CodeErr
+		return
+	}
+	var respData map[string]interface{}
+	bys, _ = ioutil.ReadAll(resp.Body)
+	json.Unmarshal(bys, &respData)
+	result.Code = int(respData["code"].(float64))
+	result.Data = respData["data"]
 }
