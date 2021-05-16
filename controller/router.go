@@ -88,8 +88,7 @@ func MapRoutes() *gin.Engine {
 	api.GET("/login", apis.Login)
 	api.POST("/register", apis.Register)
 	api.POST("/comment", apis.AddComment)
-	api.POST("/addstatic", apis.AddStatic)
-	api.GET("/static/:id", apis.GetStatic)
+	api.GET("/static/:id", apis.Static)
 
 	consoleGroup := api.Group("/console")
 	consoleGroup.Use(console.LoginCheck)
