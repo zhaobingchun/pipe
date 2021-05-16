@@ -18,7 +18,7 @@ import (
 type User struct {
 	Model
 
-	Name              string `gorm:"size:32" json:"name"`
+	Name              string `gorm:"size:32,unique" json:"name"`
 	Nickname          string `gorm:"size:32" json:"nickname"`
 	AvatarURL         string `gorm:"size:255" json:"avatarURL"`
 	B3Key             string `gorm:"size:32" json:"b3Key"`
