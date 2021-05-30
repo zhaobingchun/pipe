@@ -82,6 +82,38 @@ func GetComment(c *gin.Context) {
 func AddComment(c *gin.Context) {
 	result := gulu.Ret.NewResult()
 	defer c.JSON(http.StatusOK, result)
+	comment := &model.Comment{
+		BlogID: 1,
+	}
+	if err := c.BindJSON(comment); nil != err {
+		result.Code = util.CodeErr
+		result.Msg = "parses add comment request failed"
+
+		return
+	}
+
+	article := service.Article.ConsoleGetArticle(comment.ArticleID)
+	if nil == article {
+		result.Code = util.CodeErr
+		result.Msg = "not found the specified article"
+
+		return
+	}
+
+	commentableSetting := service.Setting.GetSetting(model.SettingCategoryBasic, model.SettingNameBasicCommentable, 1)
+	if "true" != commentableSetting.Value || !article.Commentable {
+		result.Code = util.CodeErr
+		result.Msg = "not allow comment"
+
+		return
+	}
+
+	comment.IP = util.GetRemoteAddr(c)
+
+	if err := service.Comment.AddComment(comment); nil != err {
+		result.Code = util.CodeErr
+		result.Msg = err.Error()
+	}
 }
 
 func Static(c *gin.Context) {
