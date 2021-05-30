@@ -266,7 +266,9 @@ func fillRecentComments(c *gin.Context, settingMap *map[string]interface{}, data
 		} else {
 			commentAuthor := service.User.GetUser(comment.AuthorID)
 			commentAuthorBlog := service.User.GetOwnBlog(comment.AuthorID)
-			author.URL = service.Setting.GetSetting(model.SettingCategoryBasic, model.SettingNameBasicBlogURL, commentAuthorBlog.ID).Value + util.PathAuthors + "/" + commentAuthor.Name
+			if commentAuthorBlog != nil {
+				author.URL = service.Setting.GetSetting(model.SettingCategoryBasic, model.SettingNameBasicBlogURL, commentAuthorBlog.ID).Value + util.PathAuthors + "/" + commentAuthor.Name
+			}
 			author.Name = commentAuthor.Name
 			author.AvatarURL = commentAuthor.AvatarURL
 		}

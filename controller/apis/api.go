@@ -3,6 +3,7 @@ package apis
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"io/ioutil"
 	"net/http"
@@ -86,6 +87,7 @@ func AddComment(c *gin.Context) {
 		BlogID: 1,
 	}
 	if err := c.BindJSON(comment); nil != err {
+		fmt.Printf("%+v", err)
 		result.Code = util.CodeErr
 		result.Msg = "parses add comment request failed"
 
