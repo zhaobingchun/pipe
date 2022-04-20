@@ -12,10 +12,11 @@ package cron
 
 import (
 	"crypto/tls"
-	"github.com/88250/gulu"
-	"github.com/88250/pipe/model"
-	"github.com/parnurzeal/gorequest"
 	"time"
+
+	"github.com/88250/gulu"
+	"github.com/88250/pipe/util"
+	"github.com/parnurzeal/gorequest"
 )
 
 // BlacklistIPs saves all banned IPs.
@@ -35,15 +36,15 @@ func refreshBlacklistIPs() {
 	defer gulu.Panic.Recover(nil)
 
 	result := map[string]interface{}{}
+	BlacklistIPs = map[string]bool{}
 	request := gorequest.New().TLSClientConfig(&tls.Config{InsecureSkipVerify: true})
 	_, _, errs := request.Get("https://ld246.com/apis/blacklist/ip").
-		Set("User-Agent", model.UserAgent).Timeout(3 * time.Second).EndStruct(&result)
+		Set("User-Agent", util.UserAgent).Timeout(3 * time.Second).EndStruct(&result)
 	if nil != errs {
 		logger.Errorf("refresh blacklist IPs failed: %s", errs)
 		return
 	}
 
-	BlacklistIPs = map[string]bool{}
 	dataIPs := result["data"].([]interface{})
 	for _, dataIP := range dataIPs {
 		BlacklistIPs[dataIP.(string)] = false
