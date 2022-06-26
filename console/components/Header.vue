@@ -1,5 +1,7 @@
 <template>
   <header class="header fn__flex">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5334526470831368"
+     crossorigin="anonymous"></script>
     <div :class="$route.path.indexOf('/admin') > -1 ? 'header__logo' : 'header__logo header__logo--theme'">
       <a :href="$store.state.blogURL || '/'">
         <img class="header__logo-img" src="~assets/images/logo.png"/>
