@@ -1,4 +1,4 @@
-FROM node:10.15.3 as NODE_BUILD
+FROM node:12 as NODE_BUILD
 WORKDIR /go/src/github.com/88250/pipe/
 ADD . /go/src/github.com/88250/pipe/
 RUN npm config set registry https://registry.npm.taobao.org
