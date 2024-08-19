@@ -14,7 +14,6 @@ FROM alpine:latest
 LABEL maintainer="Liang Ding<845765@qq.com>"
 WORKDIR /opt/pipe/
 COPY --from=GO_BUILD /go/src/github.com/88250/pipe/ /opt/pipe/
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 RUN apk add --no-cache ca-certificates tzdata
 
 ENV TZ=Asia/Shanghai
